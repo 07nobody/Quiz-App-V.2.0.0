@@ -5,52 +5,39 @@ import React, { useEffect } from 'react';
  */
 const ResourcePreloader = () => {
   useEffect(() => {
-    // Function to preload a stylesheet
-    const preloadStylesheet = (href) => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'style';
-      link.href = href;
-      document.head.appendChild(link);
+    // Function to load a stylesheet directly
+    const loadStylesheet = (href) => {
+      // Check if stylesheet is already loaded
+      if (document.querySelector(`link[href="${href}"]`)) return;
       
-      // Then load it
       const styleLink = document.createElement('link');
       styleLink.rel = 'stylesheet';
       styleLink.href = href;
       document.head.appendChild(styleLink);
     };
     
-    // Function to preload a script
-    const preloadScript = (src) => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'script';
-      link.href = src;
-      document.head.appendChild(link);
+    // Function to load a script directly
+    const loadScript = (src) => {
+      // Check if script is already loaded
+      if (document.querySelector(`script[src="${src}"]`)) return;
       
-      // Then load it
       const script = document.createElement('script');
       script.src = src;
       script.async = true;
       document.body.appendChild(script);
     };
     
-    // Preload external resources
-    preloadStylesheet('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css');
-    preloadStylesheet('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
-    preloadScript('https://unpkg.com/@lottiefiles/lottie-player@2.0.12/dist/lottie-player.js');
+    // Load Google Fonts with extended weights for better UI consistency
+    loadStylesheet('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
     
-    // Preload font files
-    const fontPreload = document.createElement('link');
-    fontPreload.rel = 'preload';
-    fontPreload.as = 'font';
-    fontPreload.href = 'https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.woff2?t=1590207869815';
-    fontPreload.type = 'font/woff2';
-    fontPreload.crossOrigin = 'anonymous';
-    document.head.appendChild(fontPreload);
+    // Load Remix icons
+    loadStylesheet('https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css');
+    
+    // Load Lottie player
+    loadScript('https://unpkg.com/@lottiefiles/lottie-player@2.0.12/dist/lottie-player.js');
     
     return () => {
-      // Cleanup is not necessary for preloaded resources
+      // Cleanup is not necessary for loaded resources
     };
   }, []);
   

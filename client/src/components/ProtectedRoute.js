@@ -19,9 +19,20 @@ function ProtectedRoute({ children }) {
   
   // Use a ref to prevent duplicate API calls
   const isLoadingRef = useRef(false);
+  
+  // Keep track of last auth check time to prevent excessive API calls
+  const lastAuthCheckRef = useRef(0);
 
   // Memoize the getUser function to prevent recreating it on each render
   const getUser = useCallback(async () => {
+    const now = Date.now();
+    // Throttle auth checks to once every 30 seconds at most
+    if (now - lastAuthCheckRef.current < 30000) {
+      setIsUserLoggedIn(true);
+      return;
+    }
+    lastAuthCheckRef.current = now;
+    
     // Prevent duplicate API calls
     if (isLoadingRef.current) return;
     
@@ -38,8 +49,13 @@ function ProtectedRoute({ children }) {
       isLoadingRef.current = false;
       
       if (response.success) {
-        dispatch(SetUser(response.data));
-        setIsUserLoggedIn(true);
+        // Use a timestamp to defer the state update slightly for better UI responsiveness
+        setTimeout(() => {
+          if (isMountedRef.current) {
+            dispatch(SetUser(response.data));
+            setIsUserLoggedIn(true);
+          }
+        }, 0);
       } else {
         // Use setTimeout to defer non-critical UI updates
         setTimeout(() => {
@@ -93,9 +109,13 @@ function ProtectedRoute({ children }) {
     };
   }, [getUser, navigate, user]);
 
-  // Return null during authentication check
+  // Return a loading placeholder during authentication check
   if (!isUserLoggedIn) {
-    return null;
+    return (
+      <div className="auth-loading">
+        {/* Empty div as placeholder - the global loader will show */}
+      </div>
+    );
   }
   
   // Render the navigation with children once authenticated

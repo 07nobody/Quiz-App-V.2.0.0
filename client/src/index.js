@@ -1,34 +1,26 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
-import { ConfigProvider } from "antd";
-import "./index.css";
-import App from "./App";
-import "antd/dist/reset.css";  // Replace the outdated antd.min.css import
-import store from "./redux/store";
-import { MessageProvider } from "./components/MessageProvider";
-import { unregisterServiceWorker } from "./serviceWorkerRegistration";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { ConfigProvider } from 'antd';
+import store from './redux/store';
+import App from './App';
+import { ThemeProvider } from './contexts/ThemeContext';
+import './styles/main.css';
+import reportWebVitals from './reportWebVitals';
 
-// Unregister any existing service workers to prevent workbox errors
-unregisterServiceWorker();
-
-// Ant Design theme configuration
-const theme = {
-  token: {
-    colorPrimary: '#4361ee',
-    colorLink: '#4361ee',
-    borderRadius: 6,
-  },
-};
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <Provider store={store}>
-    <ConfigProvider theme={theme}>
-      <MessageProvider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <ThemeProvider>
         <App />
-      </MessageProvider>
-    </ConfigProvider>
-  </Provider>
+      </ThemeProvider>
+    </Provider>
+  </React.StrictMode>
 );
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();

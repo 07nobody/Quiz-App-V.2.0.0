@@ -220,7 +220,16 @@ router.post("/register-exam", authMiddleware, async (req, res) => {
 // Check if user is registered for an exam
 router.post("/check-registration", authMiddleware, async (req, res) => {
   try {
-    const { examId, userId } = req.body;
+    const { examId } = req.body;
+    const userId = req.userId || req.body.userId; // Get userId from auth middleware or body
+    
+    if (!examId) {
+      return res.status(400).send({
+        message: "Exam ID is required",
+        success: false,
+      });
+    }
+
     const exam = await Exam.findById(examId);
     
     if (!exam) {
@@ -232,7 +241,7 @@ router.post("/check-registration", authMiddleware, async (req, res) => {
 
     // Check if user is registered
     const userRegistration = exam.registeredUsers.find(
-      (user) => user.userId.toString() === userId
+      (user) => user && user.userId && user.userId.toString() === userId
     );
 
     if (userRegistration) {
@@ -255,6 +264,7 @@ router.post("/check-registration", authMiddleware, async (req, res) => {
       });
     }
   } catch (error) {
+    console.error("Error checking registration:", error);
     res.status(500).send({
       message: error.message,
       data: error,

@@ -330,27 +330,88 @@ function Home() {
           align-items: center;
           padding: 1.5rem 0;
           gap: 2rem;
-          min-height: 300px;
+          position: relative;
+          overflow: hidden;
+          background: var(--primary-gradient);
+          border-radius: var(--border-radius-lg);
+          padding: 2.5rem;
+          color: white;
+          box-shadow: 0 10px 30px rgba(63, 81, 181, 0.15);
+          margin-bottom: 2rem;
         }
         
         .welcome-content {
           flex: 1;
+          z-index: 1;
+        }
+        
+        .welcome-image {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1;
+        }
+        
+        .welcome-section::before {
+          content: "";
+          position: absolute;
+          top: -50%;
+          right: -20%;
+          width: 600px;
+          height: 600px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.05);
+          z-index: 0;
+        }
+        
+        .welcome-section::after {
+          content: "";
+          position: absolute;
+          bottom: -30%;
+          left: -10%;
+          width: 400px;
+          height: 400px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.05);
+          z-index: 0;
+        }
+        
+        .dashboard-image {
+          max-width: 100%;
+          max-height: 300px;
+          object-fit: contain;
+          filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.2));
         }
         
         .welcome-heading {
           font-size: 2.5rem;
           font-weight: 700;
           margin-bottom: 1rem;
-          color: var(--text-primary);
+          color: white;
+          line-height: 1.2;
         }
         
         .user-name {
-          color: var(--primary);
+          color: rgba(255, 255, 255, 0.95);
+          position: relative;
+          display: inline-block;
+        }
+        
+        .user-name::after {
+          content: "";
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 2px;
         }
         
         .welcome-message {
           font-size: 1.1rem;
-          color: var(--text-secondary);
+          color: rgba(255, 255, 255, 0.9);
           margin-bottom: 2rem;
           max-width: 600px;
           line-height: 1.6;
@@ -362,22 +423,36 @@ function Home() {
         }
         
         .primary-cta {
-          background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+          background: white;
+          color: var(--primary) !important;
           border: none;
-          box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-        }
-        
-        .welcome-image {
-          flex: 1;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+          font-weight: 600;
+          height: 46px;
           display: flex;
-          justify-content: center;
           align-items: center;
+          padding: 0 24px;
         }
         
-        .dashboard-image {
-          max-width: 100%;
-          max-height: 300px;
-          object-fit: contain;
+        .primary-cta:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+          color: var(--primary-dark) !important;
+        }
+        
+        .secondary-cta {
+          background: rgba(255, 255, 255, 0.15);
+          color: white !important;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          height: 46px;
+          display: flex;
+          align-items: center;
+          padding: 0 24px;
+        }
+        
+        .secondary-cta:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: translateY(-3px);
         }
         
         .section-title {
@@ -388,6 +463,19 @@ function Home() {
           display: flex;
           align-items: center;
           gap: 0.5rem;
+          position: relative;
+          padding-bottom: 0.75rem;
+        }
+        
+        .section-title::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 3px;
+          width: 60px;
+          background: var(--primary);
+          border-radius: 3px;
         }
         
         .stats-section {
@@ -404,7 +492,7 @@ function Home() {
           padding: 1.5rem;
           background-color: white;
           border-radius: var(--border-radius);
-          box-shadow: var(--box-shadow);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
           transition: var(--transition);
         }
         
@@ -429,12 +517,16 @@ function Home() {
         
         .latest-exam-info {
           margin-top: 1rem;
+          padding: 1rem;
+          background: var(--background-secondary);
+          border-radius: var(--border-radius);
         }
         
         .exam-name {
           font-size: 1.2rem;
           font-weight: 600;
           margin-bottom: 0.5rem;
+          color: var(--text-primary);
         }
         
         .exam-details {
@@ -457,6 +549,8 @@ function Home() {
           color: var(--text-secondary);
           font-style: italic;
           margin-top: 1rem;
+          text-align: center;
+          padding: 2rem 0;
         }
         
         .features-section {
@@ -466,21 +560,23 @@ function Home() {
         
         .features-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
           gap: 1.5rem;
         }
         
         .feature-card {
           height: 100%;
           transition: all 0.3s ease;
+          border: 1px solid rgba(0, 0, 0, 0.03);
         }
         
         .feature-card:hover {
           transform: translateY(-8px);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
         
         .primary-feature {
-          border-top: 3px solid var(--primary);
+          border-top: 4px solid var(--primary);
         }
         
         .feature-content {
@@ -488,23 +584,25 @@ function Home() {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          padding: 1.5rem 1rem;
+          padding: 2rem 1.5rem;
           height: 100%;
         }
         
         .feature-icon {
-          width: 70px;
-          height: 70px;
+          width: 80px;
+          height: 80px;
           border-radius: 50%;
           display: flex;
           justify-content: center;
           align-items: center;
           position: relative;
           margin-bottom: 1.5rem;
+          background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         
         .feature-icon-image {
-          font-size: 28px;
+          font-size: 32px;
           color: white;
         }
         
@@ -518,27 +616,32 @@ function Home() {
           margin-bottom: 0.75rem;
           font-size: 1.3rem;
           font-weight: 600;
+          color: var(--text-primary);
         }
         
         .feature-description {
           color: var(--text-secondary);
           margin-bottom: 1.5rem;
           flex-grow: 1;
+          line-height: 1.5;
         }
         
         .feature-button {
           margin-top: auto;
           min-width: 120px;
+          height: 42px;
         }
         
         .section-divider {
           margin: 2rem 0;
+          opacity: 0.6;
         }
         
         @media (max-width: 992px) {
           .welcome-section {
             flex-direction: column;
             text-align: center;
+            padding: 2rem;
           }
           
           .welcome-content {
@@ -561,6 +664,16 @@ function Home() {
           .latest-exam-card {
             grid-column: span 1;
           }
+          
+          .section-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+          }
+          
+          .section-title {
+            justify-content: center;
+            text-align: center;
+          }
         }
         
         @media (max-width: 576px) {
@@ -575,6 +688,10 @@ function Home() {
           
           .section-title {
             font-size: 1.3rem;
+          }
+          
+          .welcome-section {
+            padding: 1.5rem;
           }
         }
       `}</style>

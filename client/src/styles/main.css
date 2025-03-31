@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Theme Variables */
+:root {
+  /* Common Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  
+  /* Primary Colors */
+  --color-primary: #4f46e5;
+  --color-primary-light: #818cf8;
+  --color-primary-dark: #4338ca;
+  
+  /* Secondary Colors */
+  --color-secondary: #0ea5e9;
+  --color-secondary-light: #38bdf8;
+  --color-secondary-dark: #0284c7;
+  
+  /* Feedback Colors */
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  
+  /* Gray Scale */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+}
+
+/* Light Theme */
+:root {
+  /* Background Colors */
+  --color-background-primary: var(--color-white);
+  --color-background-secondary: var(--color-gray-50);
+  --color-background-tertiary: var(--color-gray-100);
+  
+  /* Text Colors */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-500);
+  
+  /* Border Colors */
+  --color-border-primary: var(--color-gray-200);
+  --color-border-secondary: var(--color-gray-300);
+}
+
+/* Dark Theme */
+.dark {
+  /* Background Colors */
+  --color-background-primary: var(--color-gray-900);
+  --color-background-secondary: var(--color-gray-800);
+  --color-background-tertiary: var(--color-gray-700);
+  
+  /* Text Colors */
+  --color-text-primary: var(--color-gray-50);
+  --color-text-secondary: var(--color-gray-300);
+  --color-text-tertiary: var(--color-gray-400);
+  
+  /* Border Colors */
+  --color-border-primary: var(--color-gray-700);
+  --color-border-secondary: var(--color-gray-600);
+}
+
+/* Button Styles */
+@layer components {
+  /* Primary Button */
+  .quiz-button-primary {
+    @apply bg-primary text-white hover:bg-primary-dark focus:ring-2 focus:ring-primary/30 transition-all duration-200;
+  }
+  
+  /* Secondary Button */
+  .quiz-button-secondary {
+    @apply bg-secondary text-white hover:bg-secondary-dark focus:ring-2 focus:ring-secondary/30 transition-all duration-200;
+  }
+  
+  /* Outline Button */
+  .quiz-button-outline {
+    @apply border-2 border-primary bg-transparent text-primary hover:bg-primary/10 focus:ring-2 focus:ring-primary/30 transition-all duration-200;
+  }
+  
+  /* Card Styles */
+  .quiz-card {
+    @apply bg-white dark:bg-background-secondary rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300;
+  }
+  
+  /* Form Styles */
+  .form-title h1 {
+    @apply text-2xl font-bold text-text-primary dark:text-white mb-2;
+  }
+  
+  .form-title p {
+    @apply text-text-secondary dark:text-gray-400 mb-6;
+  }
+  
+  .login-input {
+    @apply h-12 text-base;
+  }
+  
+  .login-button-container {
+    @apply mt-6;
+  }
+  
+  .login-button {
+    @apply h-12 text-base font-medium;
+  }
+  
+  .register-link {
+    @apply mt-4 text-center text-text-secondary dark:text-gray-400;
+  }
+  
+  .register-link-text {
+    @apply ml-1 text-primary hover:text-primary-dark underline;
+  }
+}
+
+/* Global styles */
+body {
+  @apply bg-background-primary dark:bg-background-primary text-text-primary dark:text-text-primary;
+}
+
+html {
+  scroll-behavior: smooth;
+}

@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+
 const examSchema = new mongoose.Schema(
   {
     name: {
@@ -21,52 +22,74 @@ const examSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    status: {
-      type: String,
-      default: "active",
-      enum: ["active", "inactive"],
-    },
-    examCode: {
-      type: String,
-      default: function() {
-        // Generate a 6-character code with letters and numbers - only runs at document creation
-        return Math.random().toString(36).substring(2, 8).toUpperCase();
-      }
-    },
-    isPaid: {
-      type: Boolean,
-      default: false,
-    },
-    price: {
-      type: Number,
-      default: 0,
-    },
-    registeredUsers: [{
-      userId: {
+    questions: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
+        ref: 'questions',
       },
-      email: String,
-      registeredAt: {
-        type: Date,
-        default: Date.now,
-      },
-      paymentStatus: {
-        type: String,
-        enum: ["pending", "completed", "failed"],
-        default: "pending",
-      }
-    }],
-    questions: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "questions",
+    ],
+    // New fields added for timer customization
+    timerType: {
+      type: String,
+      enum: ['fixed', 'flexible', 'perQuestion'],
+      default: 'fixed',
       required: true,
     },
+    timerSettings: {
+      timePerQuestion: {
+        type: Number, // Time in seconds per question (for perQuestion type)
+        default: 60,
+      },
+      showTimer: {
+        type: Boolean,
+        default: true,
+      },
+      allowTimeExtension: {
+        type: Boolean,
+        default: false,
+      },
+      maxTimeExtension: {
+        type: Number, // Maximum additional time in minutes 
+        default: 0,
+      },
+      warningTime: {
+        type: Number, // Time in minutes when warning appears
+        default: 5,
+      }
+    },
+    // Accessibility settings
+    accessibilitySettings: {
+      extraTimeUsers: [
+        {
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users',
+          },
+          extraTimePercentage: {
+            type: Number, // Extra time as percentage of total duration
+            default: 25, // Common accommodation is 25% extra time
+          },
+          reason: {
+            type: String,
+            default: 'Accessibility accommodation',
+          }
+        }
+      ],
+      highContrastMode: {
+        type: Boolean,
+        default: false,
+      },
+      largerText: {
+        type: Boolean, 
+        default: false,
+      }
+    }
   },
   {
     timestamps: true,
   }
 );
 
-const Exam = mongoose.model("exams", examSchema);
-module.exports = Exam;
+const examModel = mongoose.model('exams', examSchema);
+
+module.exports = examModel;

@@ -35,8 +35,33 @@ export const MessageProvider = ({ children }) => {
     type: ''
   });
   
+  // Store pending messages to avoid overflow
+  const pendingMessagesRef = useRef([]);
+  
+  // Track if we're currently processing messages
+  const isProcessingRef = useRef(false);
+  
+  // Process message queue with requestIdleCallback when browser is idle
+  const processMessageQueue = useCallback(() => {
+    if (pendingMessagesRef.current.length === 0) {
+      isProcessingRef.current = false;
+      return;
+    }
+    
+    isProcessingRef.current = true;
+    const { type, content, duration, onClose } = pendingMessagesRef.current.shift();
+    
+    // Use setTimeout with 0 delay to defer to next event loop but not block rendering
+    setTimeout(() => {
+      antMessage[type](content, duration, onClose);
+      
+      // Process next message in queue after a small delay to prevent UI blocking
+      setTimeout(processMessageQueue, 50);
+    }, 0);
+  }, []);
+  
   // Throttle function to limit message frequency
-  const throttleMessage = (type, content, duration, onClose) => {
+  const throttleMessage = useCallback((type, content, duration, onClose) => {
     const now = Date.now();
     const lastMessage = lastMessageRef.current;
     
@@ -56,32 +81,35 @@ export const MessageProvider = ({ children }) => {
       type
     };
     
-    // Use setTimeout instead of requestAnimationFrame for more predictable timing
-    setTimeout(() => {
-      antMessage[type](content, duration, onClose);
-    }, 0);
-  };
+    // Add to queue instead of showing immediately
+    pendingMessagesRef.current.push({ type, content, duration, onClose });
+    
+    // Start processing queue if not already doing so
+    if (!isProcessingRef.current) {
+      processMessageQueue();
+    }
+  }, [processMessageQueue]);
   
   // Create optimized message functions
   const success = useCallback((content, duration, onClose) => {
     throttleMessage('success', content, duration, onClose);
-  }, []);
+  }, [throttleMessage]);
   
   const error = useCallback((content, duration, onClose) => {
     throttleMessage('error', content, duration, onClose);
-  }, []);
+  }, [throttleMessage]);
   
   const warning = useCallback((content, duration, onClose) => {
     throttleMessage('warning', content, duration, onClose);
-  }, []);
+  }, [throttleMessage]);
   
   const info = useCallback((content, duration, onClose) => {
     throttleMessage('info', content, duration, onClose);
-  }, []);
+  }, [throttleMessage]);
   
   const loading = useCallback((content, duration, onClose) => {
     throttleMessage('loading', content, duration, onClose);
-  }, []);
+  }, [throttleMessage]);
 
   // Create a memoized value for the context to prevent unnecessary re-renders
   const messageApi = useMemo(() => ({

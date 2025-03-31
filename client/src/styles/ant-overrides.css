@@ -1,0 +1,129 @@
+/* Ant Design Component Style Overrides */
+
+/* Button styles */
+.ant-btn {
+  @apply rounded border-solid border transition duration-300;
+}
+
+.ant-btn-primary {
+  @apply bg-primary border-primary hover:bg-primary-dark hover:border-primary-dark;
+}
+
+.ant-btn-default {
+  @apply border-gray-300 hover:border-primary hover:text-primary;
+}
+
+/* Form styles */
+.ant-form-item {
+  @apply mb-4;
+}
+
+.ant-form-item-label > label {
+  @apply text-text-primary dark:text-text-primary font-medium;
+}
+
+.ant-input,
+.ant-input-password {
+  @apply rounded transition-all border-gray-300 focus:border-primary focus:shadow;
+}
+
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  @apply border-primary;
+}
+
+/* Menu styles */
+.ant-menu {
+  @apply bg-transparent;
+}
+
+.ant-menu-item-selected {
+  @apply bg-primary text-white;
+}
+
+.ant-menu-item:hover {
+  @apply text-primary;
+}
+
+/* Card styles */
+.ant-card {
+  @apply rounded-lg overflow-hidden;
+}
+
+.ant-card-head {
+  @apply border-b border-gray-200 dark:border-gray-700;
+}
+
+/* Table styles */
+.ant-table {
+  @apply rounded-lg overflow-hidden;
+}
+
+.ant-table-thead > tr > th {
+  @apply bg-gray-50 dark:bg-slate-700 text-text-secondary dark:text-text-primary font-medium;
+}
+
+.ant-table-tbody > tr:hover > td {
+  @apply bg-gray-50 dark:bg-slate-700/30;
+}
+
+/* Modal styles */
+.ant-modal-content {
+  @apply rounded-lg;
+}
+
+.ant-modal-header {
+  @apply rounded-t-lg border-b border-gray-200 dark:border-gray-700;
+}
+
+.ant-modal-title {
+  @apply text-text-primary dark:text-text-primary font-medium;
+}
+
+/* Badge styles */
+.ant-badge-count {
+  @apply bg-secondary border-0;
+}
+
+/* Tag styles */
+.ant-tag {
+  @apply border-0 rounded-full px-3 py-0.5 font-medium;
+}
+
+/* Tabs styles */
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply text-primary;
+}
+
+.ant-tabs-ink-bar {
+  @apply bg-primary;
+}
+
+/* Progress styles */
+.ant-progress-bg {
+  @apply bg-gradient-to-r from-primary to-primary-dark;
+}
+
+/* Notification styles */
+.ant-notification-notice {
+  @apply rounded-lg;
+}
+
+/* Tooltip styles */
+.ant-tooltip-inner {
+  @apply rounded-md py-1 px-2 text-xs;
+}
+
+/* Dropdown styles */
+.ant-dropdown-menu {
+  @apply rounded-lg shadow-lg;
+}
+
+.ant-dropdown-menu-item:hover {
+  @apply bg-primary/10 text-primary;
+}
+
+/* Switch styles */
+.ant-switch-checked {
+  @apply bg-primary;
+}

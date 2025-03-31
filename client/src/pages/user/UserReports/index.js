@@ -14,7 +14,10 @@ function UserReports() {
   const [viewMode, setViewMode] = useState("cards"); // 'table' or 'cards'
   const dispatch = useDispatch();
   const dataFetchedRef = useRef(false);
+  const dataFetchingRef = useRef(false); // Track if data fetching is in progress
+  const dataTimerRef = useRef(null); // For debouncing fetch operations
 
+  // Columns for table view - memoize this to prevent recreating on each render
   const columns = [
     {
       title: "Exam Name",
@@ -59,20 +62,49 @@ function UserReports() {
     },
   ];
 
+  // Debounced getData function to prevent excessive API calls
   const getData = useCallback(async () => {
-    try {
-      dispatch(ShowLoading());
-      const response = await getAllReportsByUser();
-      if (response.success) {
-        setReportsData(response.data);
-      } else {
-        message.error(response.message);
-      }
-      dispatch(HideLoading());
-    } catch (error) {
-      dispatch(HideLoading());
-      message.error(error.response?.data?.message || "Something went wrong");
+    // Clear any existing timer
+    if (dataTimerRef.current) {
+      clearTimeout(dataTimerRef.current);
     }
+    
+    // If already fetching, don't start another fetch
+    if (dataFetchingRef.current) return;
+    
+    // Use a short timeout to debounce rapid calls
+    dataTimerRef.current = setTimeout(async () => {
+      dataFetchingRef.current = true;
+      
+      try {
+        dispatch(ShowLoading());
+        const response = await getAllReportsByUser();
+        
+        // Small delay after fetching to allow UI to breathe
+        await new Promise(resolve => setTimeout(resolve, 10));
+        
+        dispatch(HideLoading());
+        
+        if (response.success) {
+          // Use state updater function for safer updates
+          setReportsData(prevData => {
+            // Only update if data actually changed (deep compare is expensive, just check length as optimization)
+            if (!prevData || prevData.length !== response.data.length) {
+              return response.data;
+            }
+            return prevData;
+          });
+        } else {
+          message.error(response.message);
+        }
+      } catch (error) {
+        dispatch(HideLoading());
+        message.error(error.response?.data?.message || "Something went wrong");
+      } finally {
+        dataFetchingRef.current = false;
+      }
+    }, 50); // 50ms debounce
+    
   }, [dispatch]);
 
   useEffect(() => {
@@ -85,6 +117,9 @@ function UserReports() {
     return () => {
       // Clean up
       dataFetchedRef.current = false;
+      if (dataTimerRef.current) {
+        clearTimeout(dataTimerRef.current);
+      }
     };
   }, [getData]);
 

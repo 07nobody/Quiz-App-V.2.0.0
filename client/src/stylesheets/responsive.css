@@ -1,0 +1,271 @@
+/* 
+   Responsive Design System for Quiz Application
+   Ensures proper display across devices of all sizes
+*/
+
+/* Global responsive adjustments */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  .content-container {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+}
+
+/* Tablet breakpoint */
+@media (max-width: 992px) {
+  .divider {
+    flex-direction: column;
+  }
+  
+  .divider-item {
+    width: 100%;
+  }
+  
+  .ant-form-item {
+    margin-bottom: 12px;
+  }
+
+  /* Dashboard cards adapt to smaller screens */
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  /* Navbar adjustments */
+  .brand-logo-text {
+    font-size: 1.25rem;
+  }
+  
+  .nav-menu {
+    gap: 16px;
+  }
+  
+  /* Theme customizer adjustment */
+  .theme-customizer {
+    width: 320px;
+    right: -320px;
+  }
+  
+  .theme-customizer.active {
+    right: 0;
+  }
+}
+
+/* Mobile landscape breakpoint */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+  }
+  
+  .d-none-mobile {
+    display: none;
+  }
+  
+  /* Show mobile-specific elements */
+  .d-block-mobile {
+    display: block;
+  }
+  
+  .d-flex-mobile {
+    display: flex;
+  }
+  
+  /* Exam cards become full width */
+  .ant-card {
+    width: 100% !important;
+  }
+  
+  /* Login & Registration forms adapt */
+  .authentication-form {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  /* WriteExam component mobile adaptations - enhanced */
+  .write-exam-container .exam-ui {
+    height: auto;
+    min-height: calc(100vh - 120px);
+    max-height: none;
+  }
+  
+  .write-exam-container .exam-body {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .write-exam-container .question-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 16px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  
+  .write-exam-container .question-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  
+  .write-exam-container .question-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .write-exam-container .question-status-legend {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+  
+  /* Improve question/answer visibility on mobile */
+  .write-exam-container .question-main {
+    padding: 16px;
+    flex: 1;
+    min-height: 60vh;
+  }
+  
+  .write-exam-container .question-text {
+    font-size: 1.1rem;
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+  
+  /* Collapsible sidebar toggle for mobile */
+  .sidebar-toggle {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    background: var(--background-secondary);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  
+  .sidebar-toggle:hover {
+    background: var(--background-tertiary);
+  }
+}
+
+/* Small mobile breakpoint */
+@media (max-width: 480px) {
+  /* Extra small device optimizations */
+  .write-exam-container .exam-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+  }
+  
+  .write-exam-container .exam-title {
+    font-size: 1.2rem;
+  }
+  
+  .write-exam-container .exam-timer {
+    align-self: flex-end;
+    margin-top: -30px;  /* Position timer on the same line as title */
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .write-exam-container .time-display {
+    font-size: 1rem;
+  }
+  
+  .write-exam-container .question-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 16px 0;
+    margin-top: 24px;
+  }
+  
+  .write-exam-container .action-button {
+    flex: 1 0 auto;
+    min-width: 45%;
+    padding: 10px 6px;
+    font-size: 0.9rem;
+    justify-content: center;
+  }
+  
+  .write-exam-container .question-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  /* Enhanced option styles for better touch targets */
+  .write-exam-container .option,
+  .write-exam-container .selected-option {
+    padding: 14px 12px;
+    margin-bottom: 4px;
+    border-radius: calc(var(--border-radius) - 2px);
+  }
+  
+  .write-exam-container .option-marker {
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+  
+  .write-exam-container .option-text {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  .write-exam-container .question-main {
+    padding: 12px;
+  }
+  
+  /* Floating submit button for easier access */
+  .write-exam-container .float-submit {
+    position: fixed;
+    bottom: calc(var(--mobile-bottom-nav-height) + 16px);
+    right: 16px;
+    z-index: 100;
+    box-shadow: var(--box-shadow-elevated);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Portrait orientation specific adjustments for mobile */
+@media (max-width: 480px) and (orientation: portrait) {
+  .write-exam-container .question-content {
+    gap: 12px;
+  }
+  
+  .write-exam-container .question-text {
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  
+  .write-exam-container .options-container {
+    gap: 10px;
+  }
+  
+  /* Compact sidebar for portrait mode */
+  .write-exam-container .question-sidebar {
+    max-height: 180px;
+  }
+  
+  /* Improved timer visibility */
+  .write-exam-container .exam-timer {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+}

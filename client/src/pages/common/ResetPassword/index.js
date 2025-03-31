@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, message } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "../../../apicalls";
+import { axiosInstance } from "../../../apicalls";
 
 function ResetPassword() {
   const [loading, setLoading] = useState(false);

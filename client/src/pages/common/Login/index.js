@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Form, message, Input, Button, Tabs } from "antd";
+import { Form, message, Input, Button } from "antd";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
-import axiosInstance from "../../../apicalls";
+import { axiosInstance } from "../../../apicalls";
 import { SetUser } from "../../../redux/usersSlice";
 import { 
   UserOutlined, 
@@ -36,18 +36,18 @@ function Login() {
     }
   }, [forgotPassword, loginForm, forgotPasswordForm, otpForm]);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/");
-    }
-  }, [navigate]);
-
   const handleApiError = (error) => {
     const errorMessage = error.response?.data?.message || "Something went wrong";
     message.error(errorMessage);
     console.error("API Error:", error);
   };
+
+  // Reset form fields when switching between login and forgot password
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const onFinish = async (values) => {
     try {
@@ -143,6 +143,7 @@ function Login() {
       
       <Form.Item
         name="email"
+        label="Email"
         rules={[
           { required: true, message: "Please input your email!" },
           { type: "email", message: "Please enter a valid email!" },
@@ -161,6 +162,7 @@ function Login() {
 
       <Form.Item
         name="password"
+        label="Password"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input.Password
@@ -222,6 +224,7 @@ function Login() {
       
       <Form.Item
         name="email"
+        label="Email"
         rules={[
           { required: true, message: "Please input your email!" },
           { type: "email", message: "Please enter a valid email!" },
@@ -281,6 +284,7 @@ function Login() {
       
       <Form.Item
         name="otp"
+        label="OTP"
         rules={[{ required: true, message: "Please input the OTP!" }]}
       >
         <Input
@@ -329,185 +333,21 @@ function Login() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-card">
-          <div className="login-branding">
-            <h2 className="logo">Quiz App</h2>
-            <div className="tagline">Test Your Knowledge</div>
-          </div>
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-[#f6f8fd] to-[#edf2ff] p-4">
+      <div className="w-full max-w-[900px] flex bg-white rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-gradient-to-r from-primary to-primary-dark p-12 text-white flex flex-col justify-center flex-1 relative overflow-hidden">
+          {/* Background animations with Tailwind classes */}
+          <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-radial-gradient from-white/10 to-transparent animate-pulse-slow"></div>
+          <div className="absolute bottom-[-50%] right-[-50%] w-[200%] h-[200%] bg-radial-gradient from-white/10 to-transparent animate-pulse-slow animation-delay-2s"></div>
           
-          <div className="login-form-container">
-            {renderActiveForm()}
-          </div>
+          <h2 className="text-4xl font-bold m-0 relative z-10">Quiz App</h2>
+          <div className="text-xl opacity-90 mt-2 relative z-10">Test Your Knowledge</div>
+        </div>
+        
+        <div className="p-12 w-[450px] flex flex-col justify-center">
+          {renderActiveForm()}
         </div>
       </div>
-      
-      <style jsx="true">{`
-        .login-page {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-          padding: 2rem 1rem;
-        }
-        
-        .login-container {
-          width: 100%;
-          max-width: 1000px;
-        }
-        
-        .login-card {
-          display: flex;
-          background: white;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .login-branding {
-          background: linear-gradient(135deg, rgba(67, 97, 238, 0.9) 0%, rgba(47, 73, 197, 0.9) 100%), url('/login-bg.jpg') center/cover;
-          padding: 3rem;
-          color: white;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          flex: 1;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .login-branding::before {
-          content: "";
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        }
-        
-        .logo {
-          font-size: 2.5rem;
-          font-weight: 700;
-          margin: 0;
-          position: relative;
-          z-index: 1;
-        }
-        
-        .tagline {
-          font-size: 1.2rem;
-          opacity: 0.9;
-          margin-top: 0.5rem;
-          position: relative;
-          z-index: 1;
-        }
-        
-        .login-form-container {
-          padding: 3rem;
-          width: 450px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        
-        .login-form {
-          width: 100%;
-        }
-        
-        .form-title {
-          text-align: center;
-          margin-bottom: 2rem;
-        }
-        
-        .form-title h1 {
-          font-size: 1.8rem;
-          font-weight: 700;
-          margin: 0;
-          color: var(--text-primary);
-        }
-        
-        .form-title p {
-          margin-top: 0.5rem;
-          color: var(--text-secondary);
-        }
-        
-        .login-input {
-          height: 48px;
-          border-radius: 6px;
-        }
-        
-        .login-button-container {
-          margin-top: 1.5rem;
-        }
-        
-        .login-button {
-          height: 48px;
-          border-radius: 6px;
-          background-color: var(--primary);
-          border-color: var(--primary);
-        }
-        
-        .login-button:hover {
-          background-color: var(--primary-dark);
-          border-color: var(--primary-dark);
-        }
-        
-        .forgot-password-link {
-          text-align: right;
-          margin-top: -0.5rem;
-          margin-bottom: 1rem;
-        }
-        
-        .forgot-btn {
-          padding: 0;
-        }
-        
-        .register-link {
-          text-align: center;
-          margin-top: 1.5rem;
-          color: var(--text-secondary);
-        }
-        
-        .register-link-text {
-          color: var(--primary);
-          font-weight: 600;
-          margin-left: 0.25rem;
-        }
-        
-        .back-to-login {
-          text-align: center;
-          margin-top: 1.5rem;
-        }
-        
-        .email-sent-info {
-          margin-top: 0.75rem;
-          padding: 0.75rem;
-          background-color: #e6f7ff;
-          border-radius: 4px;
-          color: var(--primary);
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        
-        @media (max-width: 768px) {
-          .login-card {
-            flex-direction: column;
-          }
-          
-          .login-branding {
-            padding: 2rem;
-            text-align: center;
-          }
-          
-          .login-form-container {
-            width: 100%;
-            padding: 2rem 1.5rem;
-          }
-        }
-      `}</style>
     </div>
   );
 }
